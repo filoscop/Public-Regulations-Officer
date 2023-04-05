@@ -25,7 +25,7 @@ module.exports = {
         const row = new ActionRowBuilder()
         .addComponents(
             new ButtonBuilder()
-            .setLabel(`Invite me to your server!`)
+            .setLabel(`Join the discord!`)
             .setStyle(ButtonStyle.Link)
             .setURL('https://discord.gg/ZD3GW9M5ee'),
 
