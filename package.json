@@ -11,6 +11,8 @@
   "dependencies": {
     "discord.js": "^14.9.0",
     "dotenv": "^16.0.3",
-    "openai": "^3.2.1"
+    "figlet": "^1.6.0",
+    "openai": "^3.2.1",
+    "quickdb": "^1.0.5"
   }
 }
