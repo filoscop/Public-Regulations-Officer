@@ -2,6 +2,10 @@ const { Client, GatewayIntentBits, EmbedBuilder, PermissionsBitField, Permission
 const fs = require('fs');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] }); 
 const { Events } = require ('discord.js');
+const { QuickDB } = require("quick.db");
+const db = new QuickDB();
+
+
 client.commands = new Collection();
 
 require('dotenv').config();
@@ -19,3 +23,7 @@ const commandFolders = fs.readdirSync("./src/commands");
     client.login(process.env.token)
 })();
 
+const figlet = require("figlet")
+figlet.text("REDKZX", function (err, data){
+ console.log(data)
+});
