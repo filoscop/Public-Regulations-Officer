@@ -1,47 +1,54 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { Configuration, OpenAIApi } = require('openai');
- 
-const configuration = new Configuration({
-    apiKey: 'OpenAIToken'
-});
- 
-const openai = new OpenAIApi(configuration);
- 
-module.exports = {
+const {
+    ChatInputCommandInteraction,
+    SlashCommandBuilder,
+    EmbedBuilder,
+  } = require("discord.js");
+  
+  module.exports = {
     data: new SlashCommandBuilder()
-    .setName('image-generate')
-    .setDescription(`This generates an image using a prompt provided by you`)
-    .addStringOption(option => option.setName('prompt').setDescription(`Describe what image you want to generate`).setRequired(true)),
-    async execute (interaction) {
- 
-        await interaction.deferReply();
- 
-        const prompt = interaction.options.getString('prompt');
- 
-        try {
- 
-            const response = await openai.createImage({
-                prompt: `${prompt}`,
-                n: 1,
-                size: `1024x1024`,
-            });
-            const image = response.data.data[0].url;
- 
-            const embed = new EmbedBuilder()
-            .setColor("Red")
-            .setTitle(`Heres your image of a \`\`\`${prompt}\`\`\``)
-            .setImage(image)
-            .setTimestamp()
-            .setFooter({ text: `Image Generator`})
- 
-            await interaction.editReply({ embeds: [embed] });
- 
-        } catch(e) {
-            if (e.response.status == 400) return await interaction.editReply({ content: `I cannot generate that image - status code **400**`});
-            return await interaction.editReply({ content: `Request failed with status code **${e.response.status}**`});
+      .setName("imageai")
+      .setDescription("create an AI image")
+      .setDMPermission(false)
+      .addStringOption((options) =>
+        options
+          .setName("prompt")
+          .setDescription("prompt to produce image")
+          .setRequired(true)
+      ),
+    /**
+     * @param {ChatInputCommandInteraction} interaction
+     */
+    async execute(interaction) {
+        const { default: midjourney } = await import("midjourney-client");
+        const promptOption = interaction.options.getString('prompt');
+    
+            if (!promptOption) {
+          return interaction.reply({ content: 'No prompt option was provided.', ephemeral: true });
         }
-    }
-}
+    
+        try {
+          await interaction.reply("Reds using his brain power hang tight...");
+          const response = await midjourney(promptOption);
+    
+          if (response.length < 1) {
+            return interaction.editReply("Unable to generate images lol😭.");
+          }
+    
+          const imageURLs = response.join("\n");
+          interaction.editReply({
+            content: `**${promptOption}**`,
+            embeds: [
+              {
+                image: { url: imageURLs },
+                footer: { text: "Cheese is the best- Red" },
+              },
+            ],
+          });
+        } catch (error) {
+          console.error(error);
+          interaction.editReply({ content: "An error occurred while generating the image.", ephemeral: true });
+        }
+    },
+  };
 
 //Cheese is the best -red
-//I like bree - filoscop
