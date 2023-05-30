@@ -9,6 +9,7 @@
   "author": "Filoscop",
   "license": "ISC",
   "dependencies": {
+    "discord-html-transcripts": "^3.1.4",
     "discord.js": "^14.9.0",
     "dotenv": "^16.0.3",
     "figlet": "^1.6.0",
