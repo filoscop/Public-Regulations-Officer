@@ -13,8 +13,8 @@ module.exports ={
     });
 
     if (mongoose.connect) {
-        console.log(` [REDKZX] Connected to DataBase in  ${client.ws.ping} ms`.red)
+        console.log(` [HENREH] Connected to DataBase in  ${client.ws.ping} ms`.cyan)
     };
-            console.log(' [REDKZX] You wish you were special.'.red);
+            console.log(' [HENREH] You wish you were special.'.cyan);
         },
 };
